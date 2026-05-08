@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ titulo or 'AcademiaDigital' }}</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-wrapper">
+    <a href="/" class="logo">AcademiaDigital</a>
+    <nav>
+      {% if session.user_id %}
+        {% if session.role === 'aluno' %}
+          <a href="/aluno/notas">As Minhas Notas</a>
+        {% endif %}
+        <span class="user-name">Olá, <strong>{{ session.name }}</strong></span>
+        <a href="/logout" class="btn-logout">Sair</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 AcademiaDigital — Sistema Centralizado de Gestão Académica</p>
+    <p style="font-size:0.8rem; margin-top:0.5rem; color:#94a3b8;">Plataforma desenvolvida para Fins Académicos</p>
+  </div>
+</footer>
+
+</body>
+</html>

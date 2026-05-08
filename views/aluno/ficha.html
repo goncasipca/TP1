@@ -1,0 +1,89 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h1>Minha Ficha de Aluno</h1>
+    <p>Preencha os seus dados pessoais para completar o seu registo.</p>
+  </div>
+
+  {% if sucesso %}
+    <div style="background:#d1fae5; color:#065f46; padding:1rem; border-radius:8px; margin-bottom:1.5rem; border:1px solid #a7f3d0;">
+      {{ sucesso }}
+    </div>
+  {% endif %}
+  {% if erro %}
+    <div style="background:#fee2e2; color:#991b1b; padding:1rem; border-radius:8px; margin-bottom:1.5rem;">
+      {{ erro }}
+    </div>
+  {% endif %}
+
+  {% if ficha and ficha.estado === 'aprovada' %}
+    <div class="card" style="border-left:5px solid #10b981;">
+      <h3 style="color:#059669;">Ficha Aprovada</h3>
+      <p>A sua ficha já foi validada e não pode ser editada.</p>
+      <a href="/aluno/dashboard" class="btn btn-outline">Voltar ao Painel</a>
+    </div>
+  {% else %}
+    <div class="card">
+      <form action="/aluno/ficha" method="POST" enctype="multipart/form-data" class="modern-form">
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+          <div class="form-group">
+            <label>Data de Nascimento</label>
+            <input type="date" name="data_nascimento" value="{{ ficha.data_nascimento if ficha else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label>Género</label>
+            <select name="genero">
+              <option value="M" {{ 'selected' if ficha and ficha.genero === 'M' }}>Masculino</option>
+              <option value="F" {{ 'selected' if ficha and ficha.genero === 'F' }}>Feminino</option>
+              <option value="Outro" {{ 'selected' if ficha and ficha.genero === 'Outro' }}>Outro</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+          <div class="form-group">
+            <label>Telemóvel</label>
+            <input type="tel" name="telefone" value="{{ ficha.telefone if ficha else '' }}" placeholder="9xxxxxxxx" required>
+          </div>
+          <div class="form-group">
+            <label>NIF (9 dígitos)</label>
+            <input type="text" name="nif" value="{{ ficha.nif if ficha else '' }}" maxlength="9" required>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1.5rem;">
+          <label>Morada Completa</label>
+          <textarea name="morada" rows="3" required>{{ ficha.morada if ficha else '' }}</textarea>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+          <div class="form-group">
+            <label>Código-Postal</label>
+            <input type="text" name="cp" value="{{ ficha.cp if ficha else '' }}" placeholder="0000-000">
+          </div>
+          <div class="form-group">
+            <label>Localidade</label>
+            <input type="text" name="localidade" value="{{ ficha.localidade if ficha else '' }}">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1.5rem;">
+          <label>Fotografia (JPG ou PNG)</label>
+          <input type="file" name="foto" accept=".jpg,.jpeg,.png">
+          {% if ficha and ficha.foto %}
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Foto atual: {{ ficha.foto }}</p>
+          {% endif %}
+        </div>
+
+        <div style="margin-top:2rem; display:flex; gap:1rem;">
+          <button type="submit" class="btn btn-primary">Guardar Ficha</button>
+          <a href="/aluno/dashboard" class="btn btn-outline">Voltar</a>
+        </div>
+      </form>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

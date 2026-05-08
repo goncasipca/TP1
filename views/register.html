@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="max-width:600px;">
+  <div class="card">
+    <h2>Registar Novo Utilizador</h2>
+    <p>Apenas administradores podem visualizar esta página.</p>
+
+    {% if sucesso %}
+      <div style="padding:1rem; background:#d1fae5; color:#065f46; border-radius:8px; margin-bottom:1rem;">{{ sucesso }}</div>
+    {% endif %}
+    {% if erro %}
+      <div style="padding:1rem; background:#fee2e2; color:#991b1b; border-radius:8px; margin-bottom:1rem;">{{ erro }}</div>
+    {% endif %}
+
+    <form method="POST" action="/register" class="modern-form">
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input type="text" name="nome" required>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" required>
+      </div>
+      <div class="form-group">
+        <label>Palavra-passe Temporária</label>
+        <input type="password" name="password" required>
+      </div>
+      <div class="form-group">
+        <label>Perfil do Utilizador</label>
+        <select name="perfil" required>
+          <option value="aluno">Aluno</option>
+          <option value="funcionario">Funcionário</option>
+          <option value="gestor">Gestor / Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Criar Conta</button>
+      <a href="/gestor/dashboard" class="btn btn-outline" style="margin-top:10px; text-align:center;">Voltar ao Painel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

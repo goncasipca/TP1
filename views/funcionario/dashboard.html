@@ -1,0 +1,31 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="welcome-section">
+    <p class="text-secondary" style="margin-bottom:0;">Serviços Académicos,</p>
+    <h1>Olá, {{ session.name }} 💼</h1>
+    <p>Área de gestão administrativa. Validação de matrículas e lançamento de avaliações.</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="card action-card">
+      <div>
+        <div class="icon-wrapper">📩</div>
+        <h3>Pedidos de Matrícula</h3>
+        <p>Analisa e valida ou rejeita os pedidos de matrícula e inscrição pendentes dos alunos.</p>
+      </div>
+      <a href="/funcionario/pedidos-pendentes" class="btn btn-primary">Analisar Pedidos</a>
+    </div>
+
+    <div class="card action-card">
+      <div>
+        <div class="icon-wrapper">📊</div>
+        <h3>Lançamento de Pautas</h3>
+        <p>Cria pautas de avaliação por unidade curricular e época, e regista as notas finais dos alunos.</p>
+      </div>
+      <a href="/funcionario/pautas" class="btn btn-outline">Gerir Pautas</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

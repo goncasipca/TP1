@@ -1,0 +1,30 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h2>Área do Aluno</h2>
+    <p>Bem-vindo, {{ session.name }}. O que deseja consultar hoje?</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="card">
+      <h3>Minha Ficha</h3>
+      <p>Preencha os seus dados e submeta a ficha para validação.</p>
+      <a href="/aluno/ficha" class="btn">Gerir Ficha</a>
+    </div>
+
+    <div class="card">
+      <h3>Matrículas</h3>
+      <p>Realize e consulte os seus pedidos de matrícula.</p>
+      <a href="/aluno/pedido-matricula" class="btn">Ver Pedidos</a>
+    </div>
+
+    <div class="card">
+      <h3>As Minhas Notas</h3>
+      <p>Consulte o seu aproveitamento escolar e notas publicadas.</p>
+      <a href="/aluno/notas" class="btn">Ver Notas</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

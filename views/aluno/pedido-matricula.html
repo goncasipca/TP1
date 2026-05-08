@@ -1,0 +1,77 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h1>Pedidos de Matrícula</h1>
+    <p>Efetue novos pedidos de inscrição e consulte o estado dos atuais.</p>
+  </div>
+
+  {% if sucesso %}
+    <div style="background:#d1fae5; color:#065f46; padding:1rem; border-radius:8px; margin-bottom:1.5rem; border:1px solid #a7f3d0;">
+      {{ sucesso }}
+    </div>
+  {% endif %}
+
+  <div class="dashboard-grid">
+    <div class="card">
+      <h3>Nova Matrícula</h3>
+
+      {% if not ficha %}
+        <div style="padding:1rem; background:#fef7e0; color:#e5a000; border-radius:8px;">
+          <strong>Atenção:</strong> Precisa de submeter a sua <a href="/aluno/ficha" style="color:inherit;">Ficha de Aluno</a> antes de poder efetuar uma matrícula.
+        </div>
+      {% else %}
+        <form method="POST" action="/aluno/pedido-matricula" class="modern-form">
+          <div class="form-group">
+            <label>Selecione o Curso <span class="required">*</span></label>
+            <select name="curso_id" required>
+              <option value="">Escolha um curso disponível...</option>
+              {% for c in cursos %}
+                <option value="{{ c._id }}">{{ c.nome }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:1rem;">Submeter Pedido</button>
+        </form>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h3>O Meu Histórico</h3>
+      <div class="table-container" style="margin-top:0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th>Data</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in pedidos %}
+            <tr>
+              <td><strong>{{ p.curso_id.nome }}</strong></td>
+              <td>{{ p.data_pedido | string | truncate(10, true, '') }}</td>
+              <td>
+                {% if p.estado === 'aprovada' %}
+                  <span class="badge badge-aprovada">Aprovada</span>
+                {% elif p.estado === 'rejeitada' %}
+                  <span class="badge badge-rejeitada">Rejeitada</span>
+                {% else %}
+                  <span class="badge badge-pendente">Pendente</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="3" style="text-align:center;">Ainda não efetuou nenhum pedido.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

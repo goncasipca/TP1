@@ -1,0 +1,57 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="card" style="margin-bottom:2rem;">
+    <h3>Estruturar Plano de Estudos</h3>
+    {% if erro %}
+      <p style="color:red;">{{ erro }}</p>
+    {% endif %}
+    <form method="POST" action="/gestor/planos" class="modern-form">
+      <select name="curso_id" required>
+        <option value="">Selecionar Curso</option>
+        {% for c in cursos %}
+          <option value="{{ c._id }}">{{ c.nome }}</option>
+        {% endfor %}
+      </select>
+      <select name="uc_id" required>
+        <option value="">Selecionar Unidade Curricular</option>
+        {% for u in ucs %}
+          <option value="{{ u._id }}">{{ u.nome }}</option>
+        {% endfor %}
+      </select>
+      <div style="display:flex; gap:10px;">
+        <input type="number" name="ano" placeholder="Ano (1, 2, 3...)" min="1" required style="flex:1;">
+        <select name="semestre" required style="flex:1;">
+          <option value="1">1º Semestre</option>
+          <option value="2">2º Semestre</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Associar UC ao Curso</button>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Curso</th>
+          <th>UC</th>
+          <th>Ano</th>
+          <th>Semestre</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in planos %}
+        <tr>
+          <td>{{ p.curso_id.nome }}</td>
+          <td>{{ p.uc_id.nome }}</td>
+          <td>{{ p.ano }}º Ano</td>
+          <td>{{ p.semestre }}º Sem</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

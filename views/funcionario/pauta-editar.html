@@ -1,0 +1,65 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h1>Lançamento: {{ info.nome }}</h1>
+    <p>{{ info.epoca }} | {{ info.ano_letivo }}</p>
+  </div>
+
+  {% if sucesso %}
+    <div style="background:#d1fae5; color:#065f46; padding:1rem; border-radius:8px; margin-bottom:1.5rem; border:1px solid #a7f3d0;">{{ sucesso }}</div>
+  {% endif %}
+
+  <form method="POST" action="/funcionario/pauta-editar/{{ pauta_id }}">
+    <div class="card">
+      <div class="table-container" style="margin-top:0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome do Aluno</th>
+              <th style="width:150px;">Nota (0-20)</th>
+              <th>Observações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in lista_alunos %}
+            <tr>
+              <td><strong>{{ a.nome }}</strong></td>
+              <td>
+                <input type="number" name="notas[{{ a._id }}]"
+                       step="0.01" min="0" max="20"
+                       value="{{ notas[a.id].nota if notas[a.id] else '' }}"
+                       {{ 'disabled' if info.estado === 'publicada' }}>
+              </td>
+              <td>
+                <input type="text" name="obs[{{ a._id }}]"
+                       value="{{ notas[a.id].observacoes if notas[a.id] else '' }}"
+                       {{ 'disabled' if info.estado === 'publicada' }}
+                       placeholder="Ex: Faltou ao exame">
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="3" style="text-align:center; padding:2rem; color:#666;">
+                Nenhum aluno com matrícula aprovada encontrado para esta UC.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% if info.estado === 'rascunho' %}
+      <div style="margin-top:1.5rem; display:flex; gap:1rem;">
+        <button type="submit" class="btn btn-primary">Guardar Rascunho</button>
+        <button type="submit" name="finalizar" value="1" class="btn btn-outline"
+                onclick="return confirm('Tem a certeza que deseja publicar? Esta ação é irreversível.')">
+          Publicar Pauta
+        </button>
+      </div>
+      {% endif %}
+    </div>
+  </form>
+</div>
+{% endblock %}

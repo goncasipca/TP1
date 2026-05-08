@@ -1,0 +1,43 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="card" style="margin-bottom:2rem;">
+    <h3>Adicionar Novo Curso</h3>
+    <form method="POST" action="/gestor/cursos" class="modern-form">
+      <input type="text" name="nome" placeholder="Nome do Curso" required>
+      <textarea name="descricao" placeholder="Descrição curta"></textarea>
+      <button type="submit" class="btn btn-primary">Criar Curso</button>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Estado</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in cursos %}
+        <tr>
+          <td>{{ c.id }}</td>
+          <td>{{ c.nome }}</td>
+          <td>
+            <span class="badge {{ 'badge-aprovada' if c.ativo else 'badge-rejeitada' }}">
+              {{ 'Ativo' if c.ativo else 'Inativo' }}
+            </span>
+          </td>
+          <td>
+            <a href="/gestor/cursos/toggle/{{ c._id }}" class="btn btn-outline" style="padding:5px 10px;">Alternar</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

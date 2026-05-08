@@ -1,0 +1,40 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container">
+  <h2>Validar Fichas de Aluno</h2>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Aluno</th>
+          <th>Data Submissão</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for f in fichas %}
+        <tr>
+          <td>{{ f.aluno_id.nome }}</td>
+          <td>{{ f.data_submissao }}</td>
+          <td>
+            <form method="POST" action="/gestor/fichas-pendentes" style="display:flex; gap:10px; align-items:center;">
+              <input type="hidden" name="ficha_id" value="{{ f._id }}">
+              <input type="text" name="observacoes" placeholder="Obs/Motivo">
+              <button type="submit" name="decisao" value="aprovar" class="btn btn-primary" style="padding:5px 10px; background-color:var(--success);">Aprovar</button>
+              <button type="submit" name="decisao" value="rejeitar" class="btn btn-primary" style="padding:5px 10px; background-color:var(--danger);">Rejeitar</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="3" style="text-align:center;">Nenhuma ficha pendente de validação.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <a href="/gestor/dashboard" class="btn btn-outline">Voltar ao Painel</a>
+</div>
+{% endblock %}

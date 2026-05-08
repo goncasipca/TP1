@@ -1,0 +1,95 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h1>Gestão de Pautas</h1>
+    <p>Registo e publicação de resultados académicos.</p>
+  </div>
+
+  {% if sucesso %}
+    <div style="background:#d1fae5; color:#065f46; padding:1rem; border-radius:8px; margin-bottom:1rem; border:1px solid #a7f3d0;">{{ sucesso }}</div>
+  {% endif %}
+  {% if eliminada %}
+    <div style="background:#fee2e2; color:#991b1b; padding:1rem; border-radius:8px; margin-bottom:1rem; border:1px solid #fecaca;">{{ eliminada }}</div>
+  {% endif %}
+  {% if erro %}
+    <div style="background:#fffbeb; color:#92400e; padding:1rem; border-radius:8px; margin-bottom:1rem; border:1px solid #fef3c7;">{{ erro }}</div>
+  {% endif %}
+
+  <div class="card" style="margin-bottom:2rem;">
+    <h3>Nova Pauta de Avaliação</h3>
+    <form method="POST" action="/funcionario/pautas" class="modern-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Unidade Curricular</label>
+          <select name="uc_id" required>
+            <option value="">Selecione...</option>
+            {% for uc in ucs %}
+              <option value="{{ uc._id }}">{{ uc.nome }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ano Letivo</label>
+          <input type="text" name="ano_letivo" placeholder="Ex: 2025/2026" required>
+        </div>
+        <div class="form-group">
+          <label>Época</label>
+          <select name="epoca" required>
+            <option value="Normal">Normal</option>
+            <option value="Recurso">Recurso</option>
+            <option value="Especial">Especial</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Criar Pauta</button>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>UC</th>
+          <th>Ano Letivo</th>
+          <th>Época</th>
+          <th>Estado</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in pautas %}
+        <tr>
+          <td><strong>{{ p.uc_id.nome }}</strong></td>
+          <td>{{ p.ano_letivo }}</td>
+          <td>{{ p.epoca }}</td>
+          <td>
+            <span class="badge {{ 'badge-aprovada' if p.estado === 'publicada' else 'badge-pendente' }}">
+              {{ p.estado | capitalize }}
+            </span>
+          </td>
+          <td style="display:flex; gap:0.5rem;">
+            <a href="/funcionario/pauta-editar/{{ p._id }}" class="btn btn-sm btn-outline">
+              {{ 'Ver Notas' if p.estado === 'publicada' else 'Lançar Notas' }}
+            </a>
+            {% if p.estado === 'rascunho' %}
+              <a href="/funcionario/pauta-eliminar/{{ p._id }}"
+                 class="btn btn-sm"
+                 style="background:#fee2e2; color:#991b1b; border:1px solid #fecaca;"
+                 onclick="return confirm('Tem a certeza que deseja eliminar esta pauta e todas as notas associadas?')">
+                Eliminar
+              </a>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" style="text-align:center; padding:2rem; color:#666;">Nenhuma pauta registada.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

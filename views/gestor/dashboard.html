@@ -1,0 +1,58 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="welcome-section">
+    <p class="text-secondary" style="margin-bottom:0;">Gestor Pedagógico,</p>
+    <h1>Bem-vindo, {{ session.name }} ⚙️</h1>
+    <p>Área de configuração e validação pedagógica. Gere cursos, planos e fichas.</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="card action-card">
+      <div>
+        <div class="icon-wrapper">🔍</div>
+        <h3>Validação de Fichas</h3>
+        <p>Analisa as fichas de aluno submetidas e aprova-as pedagogicamente ou rejeita-as.</p>
+      </div>
+      <a href="/gestor/fichas-pendentes" class="btn btn-primary">Validar Fichas</a>
+    </div>
+
+    <div class="card action-card">
+      <div>
+        <div class="icon-wrapper">🏫</div>
+        <h3>Gestão de Cursos</h3>
+        <p>Cria, edita e desativa os cursos oferecidos pela instituição.</p>
+      </div>
+      <a href="/gestor/cursos" class="btn btn-outline">Ver Cursos</a>
+    </div>
+
+    <div class="card action-card">
+      <div>
+        <div class="icon-wrapper">📚</div>
+        <h3>Unidades Curriculares</h3>
+        <p>Administra a lista de disciplinas (UCs) disponíveis no sistema.</p>
+      </div>
+      <a href="/gestor/uc" class="btn btn-outline">Ver UCs</a>
+    </div>
+
+    <div class="card action-card">
+      <div>
+        <div class="icon-wrapper">🗺️</div>
+        <h3>Planos de Estudo</h3>
+        <p>Associa unidades curriculares aos cursos, definindo o ano e semestre respetivo.</p>
+      </div>
+      <a href="/gestor/planos" class="btn btn-outline">Estruturar Planos</a>
+    </div>
+
+    <div class="card action-card">
+      <div>
+        <div class="icon-wrapper">👤</div>
+        <h3>Gestão de Utilizadores</h3>
+        <p>Crie novas contas para alunos, funcionários ou outros gestores do sistema.</p>
+      </div>
+      <a href="/register" class="btn btn-outline">Registar Utilizador</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
